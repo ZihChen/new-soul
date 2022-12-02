@@ -11,10 +11,12 @@ services:
       - SERVICE_NAME = ${SERVICE_NAME}
     depends_on:
       - mysql
+    working_dir: /go/src/${SERVICE_NAME}
     volumes:
-      - .:/go/src/${PROJECT_NAME}/${SERVICE_NAME}
+      - .:/go/src/${SERVICE_NAME}
     networks:
       - new_soul_service
+    command: "fresh runner.conf"
   mysql:
     image: mysql:5.7
     container_name: ${SERVICE_NAME}-db

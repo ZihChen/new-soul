@@ -1,4 +1,5 @@
 /.idea/*
 /tmp/*
 /auth/.env
+/auth/tmp/*
 /soul/.env
