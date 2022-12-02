@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  golang:
+    build:
+      context: .
+    container_name: ${SERVICE_NAME}
+    restart: always
+    environment:
+      - ENV = local
+      - SERVICE_NAME = ${SERVICE_NAME}
+    depends_on:
+      - mysql
+    volumes:
+      - .:/go/src/${PROJECT_NAME}/${SERVICE_NAME}
+    networks:
+      - new_soul_service
+  mysql:
+    image: mysql:5.7
+    container_name: ${SERVICE_NAME}-db
+    restart: always
+    volumes:
+      - /home/winston/DB/${PROJECT_NAME}/${SERVICE_NAME}:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${SERVICE_NAME}
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
+    networks:
+      - new_soul_service
+
+networks:
+  new_soul_service:
+    external: true
